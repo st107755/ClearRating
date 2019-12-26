@@ -6,20 +6,32 @@ const { JSDOM } = jsdom;
 main()
 
 async function main() {
-    extractReviewers(await reviewPages())
+  getReviewersHistory(await extractReviewers(await reviewPages()))
+
+
+}
+
+async function getReviewersHistory(profilePaths){
 
 }
 
 async function extractReviewers(reviewPages) {
-    reviewPages.forEach(element => {
-        const profiles = Array.from(element.window.document.getElementsByClassName('a-profile'))
-        Array.from(profiles).forEach(profile => {console.log(profile.href)})
-    })
+    var profilesPath = new Array()
+    for (i = 0; i < reviewPages.length; i++) { 
+        const page = reviewPages[i]
+        const profiles = Array.from(page.window.document.getElementsByClassName('a-profile'))
+        for (j = 0; j < profiles.length; j ++) {
+            const profile = profiles[j]
+            profilesPath.push(profile.href)
+        }
+    }
+    return profilesPath
+
 }
 
 async function reviewPages() {
     var host = 'https://www.amazon.de'
-    var path = '/W%C3%BCnsch-Dir-Was-Wahrhaftigkeit-Chronik-ebook/dp/B07NDN48Y4/'
+    var path = '/Emilijana-Magie-Feenherzblüte-Chronik-Elfenprinzessin-ebook/dp/B07SM129K2'
     var reviewPath = path.replace('/dp/', '/product-reviews/')
     var nextPage = host + reviewPath
     var hasNextPage = true
