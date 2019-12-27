@@ -3,26 +3,38 @@ const jsdom = require("jsdom"); // Coverting in Html Documents
 const phantom = require('phantom'); // Headless Browser
 const { JSDOM } = jsdom;
 
-main()
+const host = 'https://www.amazon.de'
+main(host)
 
-async function main() {
-  getReviewersHistory(await extractReviewers(await reviewPages()))
+async function main(host) {
+    const productReviewPages = await reviewPages(host)
+    const profilePaths = await extractReviewers(productReviewPages, host)
+    const reviewers = await getReviewersHistory(profilePaths)
+    console.log()
 
 
 }
 
-async function getReviewersHistory(profilePaths){
+async function extractReviewerData(){
 
 }
 
-async function extractReviewers(reviewPages) {
+async function getReviewersHistory(profilePaths) {
+    const reviewers = new Array()
+    for (i = 0; i < profilePaths.length; i++) {
+        reviewers.push(await get(profilePaths[i]))
+    }
+    return reviewers
+}
+
+async function extractReviewers(reviewPages, host) {
     var profilesPath = new Array()
-    for (i = 0; i < reviewPages.length; i++) { 
+    for (i = 0; i < reviewPages.length; i++) {
         const page = reviewPages[i]
         const profiles = Array.from(page.window.document.getElementsByClassName('a-profile'))
-        for (j = 0; j < profiles.length; j ++) {
+        for (j = 0; j < profiles.length; j++) {
             const profile = profiles[j]
-            profilesPath.push(profile.href)
+            profilesPath.push(host + profile.href)
         }
     }
     return profilesPath
