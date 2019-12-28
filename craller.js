@@ -1,6 +1,6 @@
-
 const jsdom = require("jsdom"); // Coverting in Html Documents
 const phantom = require('phantom'); // Headless Browser
+const reviewApi = require('./reviewerCraller')
 const { JSDOM } = jsdom;
 
 const host = 'https://www.amazon.de'
@@ -15,14 +15,11 @@ async function main(host) {
 
 }
 
-async function extractReviewerData(){
-
-}
 
 async function getReviewersHistory(profilePaths) {
     const reviewers = new Array()
     for (i = 0; i < profilePaths.length; i++) {
-        reviewers.push(await get(profilePaths[i]))
+        reviewers.push(await reviewApi.getUserReviews(profilePaths[i]))
     }
     return reviewers
 }
