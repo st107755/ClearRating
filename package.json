@@ -1,0 +1,30 @@
+{
+  "name": "clear-rating",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "puppeteer": "^2.0.0",
+    "puppeteer-extra": "^3.1.7",
+    "puppeteer-extra-plugin-stealth": "^2.4.5",
+    "query-string": "^6.9.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/st107755/ClearRating.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/st107755/ClearRating/issues"
+  },
+  "homepage": "https://github.com/st107755/ClearRating#readme"
+}
