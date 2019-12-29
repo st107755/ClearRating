@@ -7,6 +7,6 @@ const AmazonCrawler = require('./lib/AmazonCrawler');
 
     console.log("reviews: ", profile.reviewCount);
     console.log("average review: ", profile.averageReview);*/
-    console.log(JSON.stringify(await crawler.crawlProductReviews("B00Y211AFM", 1, 1), null, 4));
+    console.log(JSON.stringify(await crawler.crawlProductReviews("B00Y211AFM", 1, 5), null, 4));
     await crawler.stop();
 })();
