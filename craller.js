@@ -1,23 +1,21 @@
 const jsdom = require("jsdom"); // Coverting in Html Documents
-const phantom = require('phantom'); // Headless Browser
+const cheerio = require('cheerio');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const reviewApi = require('./reviewerCraller')
+const AmazonCrawler = require('./lib/AmazonCrawler');
 const { JSDOM } = jsdom;
 
 const host = 'https://www.amazon.de'
-main(host)
+const product = "/Emilijana-Magie-Feenherzblüte-Chronik-Elfenprinzessin-ebook/dp/B07SM129K2"
+main(host,product)
 
-async function main(host) {
-    const productReviewPages = await reviewPages(host)
-    const profilePaths = await extractReviewers(productReviewPages, host)
-    const reviewers = await getReviewersHistory(profilePaths)
-    console.log()
-
-    async function getReviewersHistory(profilePaths) {
-        const reviewers = new Array()
-        for (i = 0; i < profilePaths.length; i++) {
-            reviewers.push(await reviewApi.getUserReviews(profilePaths[i]))
-        }
-        return reviewers
+async function main(host,product) {
+    const reviewPageCount = await reviewPages(host,product)
+    const crawler = new AmazonCrawler();
+    await crawler.init();
+    const reviewerStatistics = await crawler.crawlProductReviews("B07SM129K2", 1,reviewPageCount )
+    console.log(reviewerStatistics)
     }
 
     /**
@@ -39,8 +37,7 @@ async function main(host) {
 
     }
 
-    async function reviewPages(host) {
-        var path = '/Emilijana-Magie-Feenherzblüte-Chronik-Elfenprinzessin-ebook/dp/B07SM129K2'
+    async function reviewPages(host,path) {
         var reviewPath = path.replace('/dp/', '/product-reviews/')
         var nextPage = host + reviewPath
         var hasNextPage = true
@@ -58,7 +55,7 @@ async function main(host) {
                 hasNextPage = false
             }
         }
-        return reviewPages
+        return urls.length
     }
 
     /**
@@ -66,10 +63,8 @@ async function main(host) {
      * @param {*} url 
      */
     async function get(url) {
-        const instance = await phantom.create();
-        const page = await instance.createPage();
-        const frame = await page.open(url)
-        const content = await page.property('content');
-        return content
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(url, {waitUntil: "networkidle2"});
+        return await page.content();
     }
-}
