@@ -31,7 +31,7 @@ class ClearRating {
         this.isLoading = true;
 
         const searchParams = this.getSearchParams();
-        $.get("http://localhost:3000/productReviews/B07TWFWJDZ/?page=" + (searchParams.pageNumber || 1)).then((data) => {
+        $.get("https://metztli.duckdns.org/productReviews/B07TWFWJDZ/?page=" + (searchParams.pageNumber || 1)).then((data) => {
             this.reviews = this.reviews.concat(data);
             this.updateReviews();
             this.isLoading = false;
