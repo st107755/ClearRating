@@ -9,3 +9,10 @@ To achive that the the rating of an review is compared statisicaly to all over r
 * Speicherung der Daten in einem Key-Value storage 
 * Abgruf und annotation der Gespeicherten Daten durch ein Chrom Plugin
 
+## Object Architektur
+In der Datenbank werden für jeden User folgende Statistiken gespeichert:
+* Id (Hash von Amazon)
+* Name des Reviewers
+* Review by Metrics (stars,date,verified,vine)
+
+
