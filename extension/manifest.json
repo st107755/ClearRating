@@ -1,0 +1,17 @@
+{
+    "name": "Clear Rating",
+    "version": "1.0",
+    "description": "Show the real power of an amazon review.",
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.amazon.de/product-reviews/*"
+            ],
+            "js": [
+                "jquery-latest.js",
+                "main.js"
+            ]
+        }
+    ]
+}
