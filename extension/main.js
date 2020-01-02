@@ -2,6 +2,7 @@
 
 class ClearRating {
     reviews = [];
+    isLoading = false;
 
     constructor() {
         this.initObserver();
@@ -24,10 +25,16 @@ class ClearRating {
     }
 
     loadReviewData() {
+        if (this.isLoading) {
+            return;
+        }
+        this.isLoading = true;
+
         const searchParams = this.getSearchParams();
         $.get("http://localhost:3000/productReviews/B07TWFWJDZ/?page=" + (searchParams.pageNumber || 1)).then((data) => {
             this.reviews = this.reviews.concat(data);
             this.updateReviews();
+            this.isLoading = false;
         });
     }
 
