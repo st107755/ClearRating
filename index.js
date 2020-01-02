@@ -1,6 +1,5 @@
 const AmazonCrawler = require('./lib/AmazonCrawler');
-const DB = require('./lib/DbUtils')
-
+const DB = require('./lib/DbUtils');
 
 (async () => {
     const crawler = new AmazonCrawler();
