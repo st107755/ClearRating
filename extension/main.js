@@ -66,7 +66,7 @@ class ClearRating {
 
     loadAccountData(accountId) {
         return new Promise((resolve, reject) => {
-            $.get("http://localhost:3000/accountMetrics/" + accountId).then(resolve);
+            $.get("https://metztli.duckdns.org/accountMetrics/" + accountId).then(resolve);
         });
     }
 
