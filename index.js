@@ -6,7 +6,11 @@ const DB = require('./lib/DbUtils');
     const db = new DB();
     await crawler.init();
 
-    const reviewerStatistics = await crawler.crawlProductReviews("B07GFC1RGW", 1, 1)
-    console.log(JSON.stringify());
+    const reviewerStatistics = await crawler.crawlProductReviews("B071Z2VJWH");
+    reviewerStatistics.forEach(reviewer => {
+        db.put(reviewer);
+    });
+
+    console.log("sucessfull");
     await crawler.stop();
 })();
