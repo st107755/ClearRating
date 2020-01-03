@@ -5,7 +5,7 @@ const db = require('./lib/DbUtils');
     const crawler = new AmazonCrawler();
     await crawler.init();
 
-    console.log(await crawler.crawlProductReviews("B08153RC4Q"));
+    console.log(await crawler.crawlProductReviews("B076HQSW3V"));
 
     /*
     const reviewerStatistics = await crawler.crawlProductReviews("B081V6J1KQ");
