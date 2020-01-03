@@ -5,7 +5,6 @@ const Koa = require('koa');
 const KoaRouter = require('koa-router');
 const KoaBody = require('koa-body');
 
-
 (async () => {
     const crawler = new AmazonCrawler();
     await crawler.init();
