@@ -1,3 +1,4 @@
+const config = require('./lib/Config');
 const AmazonCrawler = require('./lib/AmazonCrawler');
 const db = require('./lib/DbUtils');
 const webserver = require('./lib/Webserver');
