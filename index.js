@@ -12,7 +12,7 @@ const ReviewsStatistics = require('./lib/ReviewStatistics');
     webserver.router.get('/productStatus/:productId', async (ctx) => {
         let {productId} = ctx.params;
         const product = await db.getProduct(productId);
-        if (!product) {
+        if (!product || product.reviews.length < 3) {
             return ctx.response.body = {
                 crawled: false
             };
@@ -24,6 +24,11 @@ const ReviewsStatistics = require('./lib/ReviewStatistics');
         };
     });
 
+    webserver.router.post('/crawlProduct/:productId', async (ctx) => {
+        let {productId} = ctx.params;
+        crawler.crawlProductReviews(productId);
+        ctx.response.body = "OK";
+    });
     webserver.router.put('/crawlProduct', async (ctx) => {
         const {url} = ctx.request.body;
         const productId = /([A-Z0-9]{10})/gm.test(url) ? /([A-Z0-9]{10})/gm.exec(url)[1] : "";
