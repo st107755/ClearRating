@@ -1,29 +1,27 @@
+const config = require('./lib/Config');
 const AmazonCrawler = require('./lib/AmazonCrawler');
 const db = require('./lib/DbUtils');
-
-const Koa = require('koa');
-const KoaRouter = require('koa-router');
-const KoaBody = require('koa-body');
-
+const webserver = require('./lib/Webserver');
 
 (async () => {
     const crawler = new AmazonCrawler();
     await crawler.init();
+    await webserver.init();
 
-    const app = new Koa();
-    const router = new KoaRouter();
-
-    router.put('/crawlProduct', async (ctx) => {
-        const {url} = ctx.request.body;
-        const productId =  /([A-Z0-9]{10})/gm.test(url) ? /([A-Z0-9]{10})/gm.exec(url)[1] : "";
-        crawler.crawlProductReviews(productId);
-        ctx.response.body = "lul";
+    webserver.router.get('/productStatus/:productId', async (ctx) => {
+        let {productId} = ctx.params;
+        const product = await db.getProduct(productId);
+        ctx.response.body = {
+            crawled: !!product
+        };
     });
 
-    app.use(KoaBody());
-    app.use(router.routes());
-    app.use(router.allowedMethods());
-    app.listen(3000);
+    webserver.router.put('/crawlProduct', async (ctx) => {
+        const {url} = ctx.request.body;
+        const productId = /([A-Z0-9]{10})/gm.test(url) ? /([A-Z0-9]{10})/gm.exec(url)[1] : "";
+        crawler.crawlProductReviews(productId);
+        ctx.response.body = "OK";
+    });
 
     //console.log(await crawler.crawlProductReviews("B01IA7N7CM"));
 
