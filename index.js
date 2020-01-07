@@ -2,6 +2,7 @@ const config = require('./lib/Config');
 const AmazonCrawler = require('./lib/AmazonCrawler');
 const db = require('./lib/DbUtils');
 const webserver = require('./lib/Webserver');
+const ReviewsStatistics = require('./lib/ReviewStatistics');
 
 (async () => {
     const crawler = new AmazonCrawler();
@@ -11,8 +12,15 @@ const webserver = require('./lib/Webserver');
     webserver.router.get('/productStatus/:productId', async (ctx) => {
         let {productId} = ctx.params;
         const product = await db.getProduct(productId);
+        if (!product) {
+            return ctx.response.body = {
+                crawled: false
+            };
+        }
+        const statistics = new ReviewsStatistics(product.reviews);
         ctx.response.body = {
-            crawled: !!product
+            crawled: true,
+            statistics: statistics.statisticValues()
         };
     });
 
