@@ -7,7 +7,7 @@ To achive that the the rating of an review is compared statisicaly to all over r
 ### Next Steps 
 * Complete Chain from Product link to JSON Metric Object 
 * Speicherung der Daten in einem Key-Value storage 
-* Abgruf und annotation der Gespeicherten Daten durch ein Chrom Plugin
+* Abruf und annotation der gespeicherten Daten durch ein Chrome Plugin
 
 ## Object Architektur
 In der Datenbank werden für jeden User folgende Statistiken gespeichert:
